@@ -15,6 +15,7 @@
             color: #fff;
             padding: 20px;
             text-align: center;
+            position: relative;
         }
         nav {
             margin-top: 20px;
@@ -59,6 +60,43 @@
             bottom: 0;
             width: 100%;
         }
+        #cart, #receipt {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            color: #333;
+            border: 1px solid #333;
+            padding: 20px;
+            border-radius: 5px;
+            display: none;
+            z-index: 1000;
+        }
+        #cart h2, #receipt h2 {
+            margin-top: 0;
+        }
+        #cartItems, #receiptItems {
+            list-style-type: none;
+            padding: 0;
+        }
+        #cartItems li, #receiptItems li {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        #cartTotal, #receiptTotal {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .remove-button {
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -73,8 +111,10 @@
             <li><a href="contacts.html">Contact Us</a></li>
         </ul>
     </nav>
+    <button onclick="showCart()" style="padding: 10px 20px; background-color: #fff; color: #333; border: none; border-radius: 5px; position: absolute; top: 20px; right: 20px;">View Cart</button>
 </header>
 
+<section>
 <section>
     <div class="product">
         <img src="https://supremebikes.ph/cdn/shop/products/FC-M315-23622thumb.jpg?v=1656774123" alt="Bike Part">
@@ -85,10 +125,13 @@
             <p>Reliable shifting for 2x7 and 2x8-speed drivetrains</p>
             <p>SG-X chainrings</p>
             <p>Price: Php 1,200</p>
-            <a href="javascript:void(0);" onclick="addToCart('SHIMANO - MTB Crankset - 2x8/7- Speed')" style="padding: 10px 20px; background-color: #333; color: #fff; text-decoration: none; border-radius: 5px;">Add to Cart</a>
+            <a href="javascript:void(0);" onclick="addToCart('SHIMANO - MTB Crankset - 2x8/7- Speed', 1200)" style="padding: 10px 20px; background-color: #333; color: #fff; text-decoration: none; border-radius: 5px;">Add to Cart</a>
         </div>
     </div>
+    
+    <!-- Add more products here -->
 	
+	<!-- Product 2 -->
     <div class="product">
         <img src="https://supremebikes.ph/cdn/shop/products/SHIMANO-PEDAL-DEOREXT-PDM8100-0W.jpg?v=1676969993" alt="Bike Part">
         <div class="product-info">
@@ -98,10 +141,11 @@
             <p>Large pedal platform</p>
             <p>Lower platform height for pedaling stability</p>
             <p>Price: Php 6,000.00</p>
-            <a href="javascript:void(0);" onclick="addToCart('Shimano DEORE XT PD-M8100 Dual-Sided SPD Pedal')" style="padding: 10px 20px; background-color: #333; color: #fff; text-decoration: none; border-radius: 5px;">Add to Cart</a>
+            <a href="javascript:void(0);" onclick="addToCart('Shimano DEORE XT PD-M8100 Dual-Sided SPD Pedal', 6000)" style="padding: 10px 20px; background-color: #333; color: #fff; text-decoration: none; border-radius: 5px;">Add to Cart</a>
         </div>
     </div>
-	
+
+    <!-- Product 3 -->
     <div class="product">
         <img src="https://supremebikes.ph/cdn/shop/products/mx100blackthumb.jpg?v=1674058103&width=823" alt="Bike Part">
         <div class="product-info">
@@ -111,10 +155,11 @@
             <p>Soft, sock-like upper provides comfortable pedaling support and fit.</p>
             <p>Quick-fastening Y-shaped cross strap securely holds instep for smooth pedaling.</p>
             <p>Price: Php 3,150.00</p>
-            <a href="javascript:void(0);" onclick="addToCart('Shimano MX1 MTB Cycling Shoes SPD (SH-MX100) - Black')" style="padding: 10px 20px; background-color: #333; color: #fff; text-decoration: none; border-radius: 5px;">Add to Cart</a>
+            <a href="javascript:void(0);" onclick="addToCart('Shimano MX1 MTB Cycling Shoes SPD (SH-MX100) - Black', 3150)" style="padding: 10px 20px; background-color: #333; color: #fff; text-decoration: none; border-radius: 5px;">Add to Cart</a>
         </div>
     </div>
-	
+
+    <!-- Product 4 -->
     <div class="product">
         <img src="https://supremebikes.ph/cdn/shop/products/ikontanthumb_643ccfde-2cd5-44f2-9db6-fb9db56fa840.jpg?v=1656299658&width=823" alt="Bike Part">
         <div class="product-info">
@@ -124,10 +169,11 @@
             <p>Dual compound, 3C MaxxSpeed, or 3C MaxxTerra options</p>
             <p>60 TPI or 120 TPI casing options</p>
             <p>Price: Php 2,630.00</p>
-            <a href="javascript:void(0);" onclick="addToCart('Maxxis Ikon XC MTB Tire 29 EXO Tubeless Ready - Tan')" style="padding: 10px 20px; background-color: #333; color: #fff; text-decoration: none; border-radius: 5px;">Add to Cart</a>
+            <a href="javascript:void(0);" onclick="addToCart('Maxxis Ikon XC MTB Tire 29 EXO Tubeless Ready - Tan', 2630)" style="padding: 10px 20px; background-color: #333; color: #fff; text-decoration: none; border-radius: 5px;">Add to Cart</a>
         </div>
     </div>
-	
+
+    <!-- Product 5 -->
     <div class="product">
         <img src="https://supremebikes.ph/cdn/shop/files/pearlwhite.jpg?v=1703841119&width=823" alt="Bike Part">
         <div class="product-info">
@@ -137,20 +183,109 @@
             <p>215N/mm Bottom Bracket Stiffness.  143N/mm Headtube Stiffness</p>
             <p>Every single bike has lifetime warranty.  Contact your dealer regarding this.</p>
             <p>Price: Php 144,200.00</p>
-            <a href="javascript:void(0);" onclick="addToCart('Seka Exceed RDC All-Round Lightweight Road Bike - Pearl White (Large)')" style="padding: 10px 20px; background-color: #333; color: #fff; text-decoration: none; border-radius: 5px;">Add to Cart</a>
+            <a href="javascript:void(0);" onclick="addToCart('Seka Exceed RDC All-Round Lightweight Road Bike - Pearl White (Large)', 144200)" style="padding: 10px 20px; background-color: #333; color: #fff; text-decoration: none; border-radius: 5px;">Add to Cart</a>
         </div>
     </div>
     
     <!-- Add more product divs as needed -->
 </section>
 
+    
+    <!-- Other product items -->
+
+</section>
+
+<div id="cart">
+    <h2>View Cart</h2>
+    <ul id="cartItems"></ul>
+    <div id="cartTotal"></div>
+    <button onclick="checkout()" style="padding: 10px 20px; background-color: #333; color: #fff; border: none; border-radius: 5px; margin-top: 10px;">Checkout</button>
+    <button onclick="hideCart()" style="padding: 10px 20px; background-color: #333; color: #fff; border: none; border-radius: 5px; margin-top: 10px;">Close</button>
+</div>
+
+<div id="receipt">
+    <h2>Receipt</h2>
+    <ul id="receiptItems"></ul>
+    <div id="receiptTotal"></div>
+    <button onclick="hideReceipt()" style="padding: 10px 20px; background-color: #333; color: #fff; border: none; border-radius: 5px;">Close</button>
+</div>
+
 <footer>
     <p>&copy; 2024 Bike Parts Shop. All rights reserved.</p>
 </footer>
+
 <script>
-    function addToCart(productName) {
+    let cart = [];
+
+    function addToCart(productName, price) {
+       
+        let product = cart.find(item => item.name === productName);
+        if (product) {
+            product.quantity += 1;
+        } else {
+            cart.push({ name: productName, price: price, quantity: 1 });
+        }
         alert(productName + " has been added to your cart!");
-        // Here you can add more functionality, such as updating the cart count, making an API call, etc.
+        updateCartDisplay();
+    }
+
+    function removeFromCart(productName) {
+        let product = cart.find(item => item.name === productName);
+        if (product.quantity > 1) {
+            product.quantity -= 1;
+        } else {
+            cart = cart.filter(item => item.name !== productName);
+        }
+        updateCartDisplay();
+    }
+
+    function showCart() {
+        document.getElementById('cart').style.display = 'block';
+    }
+
+    function hideCart() {
+        document.getElementById('cart').style.display = 'none';
+    }
+
+    function updateCartDisplay() {
+        const cartItems = document.getElementById('cartItems');
+        const cartTotal = document.getElementById('cartTotal');
+        cartItems.innerHTML = '';
+        let total = 0;
+        cart.forEach(item => {
+            const li = document.createElement('li');
+            li.innerHTML = `${item.name} - Php ${item.price} x ${item.quantity} <button onclick="removeFromCart('${item.name}')" class="remove-button">Remove</button>`;
+            cartItems.appendChild(li);
+            total += item.price * item.quantity;
+        });
+        cartTotal.textContent = `Total: Php ${total.toFixed(2)}`;
+    }
+
+    function checkout() {
+        if (cart.length === 0) {
+            alert("There are no items inside the cart.");
+            return;
+        }
+
+        const receiptItems = document.getElementById('receiptItems');
+        const receiptTotal = document.getElementById('receiptTotal');
+        receiptItems.innerHTML = '';
+        let total = 0;
+        cart.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = `${item.name} - Php ${item.price} x ${item.quantity}`;
+            receiptItems.appendChild(li);
+            total += item.price * item.quantity;
+        });
+        receiptTotal.textContent = `Total: Php ${total.toFixed(2)}`;
+        cart = [];
+        updateCartDisplay();
+        hideCart();
+        document.getElementById('receipt').style.display = 'block';
+    }
+
+    function hideReceipt() {
+        document.getElementById('receipt').style.display = 'none';
     }
 </script>
 
